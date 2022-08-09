@@ -12,18 +12,21 @@ jobs:
           components: rustfmt
       - run: cargo fmt --check
   check:
+    strategy:
+      matrix:
+        profile: [dev, release, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@1.62.1
         with:
           components: clippy
-      - run: cargo check
-      - run: cargo clippy
+      - run: cargo check --profile ${{ matrix.profile }}
+      - run: cargo clippy --profile ${{ matrix.profile }}
   test:
     strategy:
       matrix:
-        profile: [dev, release]
+        profile: [dev, release, test]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
