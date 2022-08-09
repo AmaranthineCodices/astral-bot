@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.62.1
+        with:
+          components: rustfmt
+      - run: cargo fmt --check
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.62.1
+        with:
+          components: clippy
+      - run: cargo check
+      - run: cargo clippy
+  test:
+    strategy:
+      matrix:
+        profile: [dev, release]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.62.1
+      - run: cargo test --profile ${{ matrix.profile }}
