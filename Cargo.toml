@@ -8,3 +8,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenv = "0.15.0"
+color-eyre = "0.6.2"
+
+twilight-gateway = "0.12.1"
+twilight-model = "0.12.2"
+twilight-http = "0.12.1"
+twilight-cache-inmemory = "0.12.1"
+
+[dependencies.tokio]
+version = "1.20.1"
+features = ["full"]
